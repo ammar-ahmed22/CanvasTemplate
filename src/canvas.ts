@@ -30,22 +30,27 @@ let cannon : Cannon = new Cannon(new Vector2(80, 580), mousePos, draw)
 let cannonBalls: Array<CannonBall> = []
 
 let times: Array<number> = []
-let fps: number;
+
+const calculateFPS = (): number => {
+    const now: number = performance.now();
+
+    while (times.length > 0 && times[0] <= now - 1000){
+        times.shift()
+    }
+
+    times.push(now)
+
+    return times.length;
+}
 
 // Animate loop
 const animate = (): void => {
     requestAnimationFrame(animate)
 
-    const now: number = performance.now()
+    // Calculating fps
+    const fps: number = calculateFPS();
 
-    while(times.length > 0 && times[0] <= now - 1000){
-        times.shift()
-    }
-
-    times.push(now)
-    fps = times.length;
-
-    //console.log(times);
+    // Displaying fps
     document.getElementById("fps-display").innerText = `FPS: ${fps}`
     
 
@@ -55,12 +60,21 @@ const animate = (): void => {
 
     drawBorder()
 
+    // Draw cannon with rotation
     cannon.update()
     
-    // State updates at end of cannon.update()
+    // State updates at end of cannon.update() (return to original canvas while keeping cannon rotated)
     draw.ctx.restore()
 
-    cannonBalls.forEach( ( cannonBall: CannonBall ): void => {
+    cannonBalls.forEach( ( cannonBall: CannonBall, cIdx: number ): void => {
+
+        // Saving all other balls in current ball to check for collisions
+        cannonBalls.forEach(( otherBall: CannonBall, oIdx: number): void => {
+            if (cIdx !== oIdx){
+                cannonBall.addOtherBall(otherBall)
+            }
+        })
+
         cannonBall.update()
     })
     

@@ -20,25 +20,35 @@ const drawBorder = () => {
 let cannon = new Cannon(new Vector2(80, 580), mousePos, draw);
 let cannonBalls = [];
 let times = [];
-let fps;
-// Animate loop
-const animate = () => {
-    requestAnimationFrame(animate);
+const calculateFPS = () => {
     const now = performance.now();
     while (times.length > 0 && times[0] <= now - 1000) {
         times.shift();
     }
     times.push(now);
-    fps = times.length;
-    //console.log(times);
+    return times.length;
+};
+// Animate loop
+const animate = () => {
+    requestAnimationFrame(animate);
+    // Calculating fps
+    const fps = calculateFPS();
+    // Displaying fps
     document.getElementById("fps-display").innerText = `FPS: ${fps}`;
     // Clear canvas
     draw.rect(origin, canvasSize, { stroke: false, clear: true });
     drawBorder();
+    // Draw cannon with rotation
     cannon.update();
-    // State updates at end of cannon.update()
+    // State updates at end of cannon.update() (return to original canvas while keeping cannon rotated)
     draw.ctx.restore();
-    cannonBalls.forEach((cannonBall) => {
+    cannonBalls.forEach((cannonBall, cIdx) => {
+        // Saving all other balls in current ball to check for collisions
+        cannonBalls.forEach((otherBall, oIdx) => {
+            if (cIdx !== oIdx) {
+                cannonBall.addOtherBall(otherBall);
+            }
+        });
         cannonBall.update();
     });
 };

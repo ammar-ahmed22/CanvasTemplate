@@ -10,6 +10,7 @@ class CannonBall{
     gravity: number = 1.5;
     elasticity: number = 0.75;
     friction: number = 0.05;
+    otherBalls: Array<CannonBall> = [];
     constructor(
         public angle: number,
         public position: Vector2,
@@ -24,6 +25,10 @@ class CannonBall{
         this.physics.setPosition(this.position);
         this.physics.setVelocity(this.velocity);
         this.physics.setMass(this.mass);
+    }
+
+    addOtherBall = (ball: CannonBall): void => {
+        this.otherBalls.push(ball);
     }
 
     handleWallCollision = (): void => {
@@ -41,27 +46,57 @@ class CannonBall{
             this.physics.dampVelocity(new Vector2(0, this.elasticity))
 
         // Ball hits bottom
-        }else if (posBallWall.y > wall.y){
+        }
+        if (posBallWall.y > wall.y){
 
             this.position.y = wall.y - this.radius;
             this.velocity.y *= -1
             this.physics.dampVelocity(new Vector2(0, this.elasticity))
 
         // Ball hits left side
-        }else if (negBallWall.x < wall.x){
+        }
+        if (negBallWall.x < wall.x){
 
             this.position.x = wall.x + this.radius;
             this.velocity.x *= -1
             this.physics.dampVelocity(new Vector2(0, this.elasticity))
 
         // Ball hits top
-        }else if (negBallWall.y < wall.x){
+        }
+        if (negBallWall.y < wall.x){
             
             this.position.y = wall.x + this.radius;
             this.velocity.y *= -1
             this.physics.dampVelocity(new Vector2(0, this.elasticity))
 
         }
+    }
+
+    checkForCollision = (ball1: CannonBall, ball2: CannonBall): boolean => {
+        const r1: number = ball1.radius;
+        const r2: number = ball2.radius;
+
+        const minSeparation: number = r1 + r2
+
+        const distance: number = ball1.position.difference(ball2.position).magnitude();
+
+        if (distance > minSeparation){
+            // good to go
+            return false
+        }else{
+            return true
+        }
+    }
+
+    handleBallCollision = () => {
+        this.otherBalls.forEach( ( other: CannonBall ): void => {
+            const hasCollided: boolean = this.checkForCollision(this, other);
+
+            if (hasCollided){
+                this.velocity.invert()
+                other.velocity.invert()
+            }
+        })
     }
 
     update = (): void => {
@@ -76,6 +111,15 @@ class CannonBall{
         this.physics.addForce(new Vector2(-(this.velocity.x * this.friction), -(this.velocity.y * this.friction)))
 
         this.physics.calculatePosition();
+
+        if (this.otherBalls.length > 0){
+            this.handleBallCollision();
+        }
+        
+
+        this.draw.setFont("20px serif")
+        const positionText: string = `x: ${Math.round(this.position.x)}, y: ${Math.round(this.position.y)}`
+        this.draw.text(positionText, this.position.offset(this.radius, this.radius), 'red')
 
         // Wall Collision
         this.handleWallCollision()

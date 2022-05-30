@@ -32,7 +32,18 @@ class Vector2{
         return this;
     }
 
-    // Multiplies vector by vector
+    // Returns new vector as the difference between self and given
+    difference = (vector2: Vector2): Vector2 => {
+        return new Vector2(this.x - vector2.x, this.y - vector2.y)
+    }
+
+    // Multiplies vector by -1
+    invert = (): Vector2 => {
+        this.x = -this.x;
+        this.y = -this.y;
+        
+        return this;
+    }
 
     
 

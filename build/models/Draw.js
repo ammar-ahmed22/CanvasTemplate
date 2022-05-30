@@ -29,6 +29,15 @@ class Draw {
             ctx.fill();
             ctx.closePath();
         };
+        this.setFont = (font) => {
+            const { ctx } = this;
+            ctx.font = font;
+        };
+        this.text = (text, position, color = "#ffffff") => {
+            const { ctx } = this;
+            this.setFill(color);
+            ctx.fillText(text, position.x, position.y);
+        };
         this.ctx = this.canvas.getContext("2d");
     }
 }

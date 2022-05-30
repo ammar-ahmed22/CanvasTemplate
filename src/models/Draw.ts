@@ -43,6 +43,20 @@ class Draw{
         ctx.fill()
         ctx.closePath()
     }
+
+    setFont = (font: string): void => {
+        const { ctx } = this;
+
+        ctx.font = font;
+    }
+
+    text = (text: string, position: Vector2, color: string="#ffffff" ): void => {
+        
+        const { ctx } = this;
+        this.setFill(color);
+        ctx.fillText(text, position.x, position.y)
+
+    }
 }
 
 export default Draw

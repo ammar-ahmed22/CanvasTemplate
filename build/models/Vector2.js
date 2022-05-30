@@ -22,7 +22,16 @@ class Vector2 {
             this.y /= val;
             return this;
         };
-        // Multiplies vector by vector
+        // Returns new vector as the difference between self and given
+        this.difference = (vector2) => {
+            return new Vector2(this.x - vector2.x, this.y - vector2.y);
+        };
+        // Multiplies vector by -1
+        this.invert = () => {
+            this.x = -this.x;
+            this.y = -this.y;
+            return this;
+        };
         this.offset = (x, y) => {
             return new Vector2(this.x + x, this.y + y);
         };
