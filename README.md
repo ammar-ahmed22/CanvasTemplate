@@ -51,6 +51,45 @@ Start the server
   npm run start
 ```
 
+### Using yarn
+Install `typescript` globally
+```bash
+yarn add global typescript
+```
+
+Clone the project
+
+```bash
+  git clone https://link-to-project
+```
+
+Go to the project directory
+
+```bash
+  cd my-project
+```
+
+Compile typescript
+```bash
+tsc
+```
+> To watch for changes and compile during development run: 
+> ```bash
+> tsc --watch
+> ```
+
+Install dependencies
+
+```bash
+yarn install
+```
+
+Start the server
+
+```bash
+  yarn start
+```
+
 
 
 
