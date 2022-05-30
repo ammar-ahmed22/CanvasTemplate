@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "sourceMap": true,
+        "lib": [
+            "es6",
+            "dom"
+        ],
+        "noUnusedLocals": true,
+        "module": "ES2015",
+        "rootDir": "src",
+        "outDir": "build"
+    }
+}
