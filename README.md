@@ -30,15 +30,6 @@ Go to the project directory
   cd my-project
 ```
 
-Compile typescript
-```bash
-tsc
-```
-> To watch for changes and compile during development run: 
-> ```bash
-> tsc --watch
-> ```
-
 Install dependencies
 
 ```bash
@@ -51,9 +42,9 @@ Start the server
   npm run start
 ```
 
-> To watch for changes and re-serve run: 
+> To watch for changes in development, run: 
 > ```bash
-> yarn run dev
+> npm run dev
 > ```
 
 ### Using yarn
@@ -74,15 +65,6 @@ Go to the project directory
   cd my-project
 ```
 
-Compile typescript
-```bash
-tsc
-```
-> To watch for changes and compile during development run: 
-> ```bash
-> tsc --watch
-> ```
-
 Install dependencies
 
 ```bash
@@ -94,7 +76,7 @@ Start the server
 ```bash
   yarn start
 ```
-> To watch for changes and re-serve run: 
+> To watch for changes in development, run: 
 > ```bash
 > yarn run dev
 > ```

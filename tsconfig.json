@@ -4,11 +4,16 @@
         "sourceMap": true,
         "lib": [
             "es6",
-            "dom"
+            "DOM"
         ],
         "noUnusedLocals": true,
         "module": "ES2015",
         "rootDir": "src",
-        "outDir": "build"
+        "outDir": "build",
+        "baseUrl": ".",
+        "paths": {
+            "*": ["node_modules/*"]
+        },
+        "allowSyntheticDefaultImports": true
     }
 }
