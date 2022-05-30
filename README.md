@@ -51,6 +51,11 @@ Start the server
   npm run start
 ```
 
+> To watch for changes and re-serve run: 
+> ```bash
+> yarn run dev
+> ```
+
 ### Using yarn
 Install `typescript` globally
 ```bash
@@ -89,6 +94,10 @@ Start the server
 ```bash
   yarn start
 ```
+> To watch for changes and re-serve run: 
+> ```bash
+> yarn run dev
+> ```
 
 
 
