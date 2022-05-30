@@ -50,7 +50,7 @@ Start the server
 ### Using yarn
 Install `typescript` globally
 ```bash
-yarn add global typescript
+yarn global add typescript
 ```
 
 Clone the project
