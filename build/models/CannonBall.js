@@ -61,8 +61,17 @@ class CannonBall {
             this.otherBalls.forEach((other) => {
                 const hasCollided = this.checkForCollision(this, other);
                 if (hasCollided) {
-                    this.velocity.invert();
-                    other.velocity.invert();
+                    const deltaPosition = this.position.difference(other.position);
+                    const vCollisionNorm = deltaPosition.normalized();
+                    const relativeVelocity = this.velocity.difference(other.velocity);
+                    const speed = vCollisionNorm.dot(relativeVelocity);
+                    if (speed < 0)
+                        return;
+                    const impulse = 2 * speed / (this.mass + other.mass);
+                    const currResultantVelocity = new Vector2(-(impulse * other.mass * vCollisionNorm.x), -(impulse * other.mass * vCollisionNorm.y));
+                    const otherResultantVelocity = new Vector2((impulse * other.mass * vCollisionNorm.x), (impulse * other.mass * vCollisionNorm.y));
+                    this.velocity.add(currResultantVelocity);
+                    other.velocity.add(otherResultantVelocity);
                 }
             });
         };
@@ -78,9 +87,9 @@ class CannonBall {
             if (this.otherBalls.length > 0) {
                 this.handleBallCollision();
             }
-            this.draw.setFont("20px serif");
-            const positionText = `x: ${Math.round(this.position.x)}, y: ${Math.round(this.position.y)}`;
-            this.draw.text(positionText, this.position.offset(this.radius, this.radius), 'red');
+            // this.draw.setFont("20px serif")
+            // const positionText: string = `x: ${Math.round(this.position.x)}, y: ${Math.round(this.position.y)}`
+            // this.draw.text(positionText, this.position.offset(this.radius, this.radius), 'red')
             // Wall Collision
             this.handleWallCollision();
             this.draw.setFill("#000000");

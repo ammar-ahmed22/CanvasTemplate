@@ -26,11 +26,27 @@ class Vector2 {
         this.difference = (vector2) => {
             return new Vector2(this.x - vector2.x, this.y - vector2.y);
         };
-        // Multiplies vector by -1
+        // Returns new vector divided by constant
+        this.division = (val) => {
+            return new Vector2(this.x / val, this.y / val);
+        };
+        // Returns normalized vector
+        this.normalized = () => {
+            return new Vector2(this.x / this.magnitude(), this.y / this.magnitude());
+        };
+        // Returns the dot product 
+        this.dot = (vector2) => {
+            return (this.x * vector2.x) + (this.y * vector2.y);
+        };
+        // Returns new inverted vector
         this.invert = () => {
             this.x = -this.x;
             this.y = -this.y;
             return this;
+        };
+        // Returns new vector copy
+        this.copy = () => {
+            return new Vector2(this.x, this.y);
         };
         this.offset = (x, y) => {
             return new Vector2(this.x + x, this.y + y);
