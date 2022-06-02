@@ -61,15 +61,17 @@ class CannonBall {
             this.otherBalls.forEach((other) => {
                 const hasCollided = this.checkForCollision(this, other);
                 if (hasCollided) {
+                    // Exact separation of balls when collided
                     const deltaPosition = this.position.difference(other.position);
-                    const vCollisionNorm = deltaPosition.normalized();
+                    // Normalized separation
+                    const deltaPositionNorm = deltaPosition.normalized();
                     const relativeVelocity = this.velocity.difference(other.velocity);
-                    const speed = vCollisionNorm.dot(relativeVelocity);
+                    const speed = deltaPositionNorm.dot(relativeVelocity);
                     if (speed < 0)
                         return;
                     const impulse = 2 * speed / (this.mass + other.mass);
-                    const currResultantVelocity = new Vector2(-(impulse * other.mass * vCollisionNorm.x), -(impulse * other.mass * vCollisionNorm.y));
-                    const otherResultantVelocity = new Vector2((impulse * other.mass * vCollisionNorm.x), (impulse * other.mass * vCollisionNorm.y));
+                    const currResultantVelocity = new Vector2(-(impulse * other.mass * deltaPositionNorm.x), -(impulse * other.mass * deltaPositionNorm.y));
+                    const otherResultantVelocity = new Vector2((impulse * other.mass * deltaPositionNorm.x), (impulse * other.mass * deltaPositionNorm.y));
                     this.velocity.add(currResultantVelocity);
                     other.velocity.add(otherResultantVelocity);
                 }
